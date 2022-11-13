@@ -5,26 +5,26 @@ import jwt_decode from "jwt-decode";
 import { useParams, useNavigate } from 'react-router-dom';
 import { Link } from "react-router-dom";
 
-const Dashboard = () => {
+const ReportSelling = () => {
     const [name, setName] = useState('');
     const [token, setToken] = useState('');
     const [expire, setExpire] = useState('');
     const [users, setUsers] = useState([]);
     const navigate = useNavigate();
-    const [products, setProduct] = useState([]);
+    const [selling, setSelling] = useState([]);
 
     useEffect(() => {
         refreshToken();
         getUsers();
-        getProducts();
+        getSelling();
     }, []);
-    const getProducts = async () => {
-        const response = await axios.get('http://localhost:5000/produk');
-        setProduct(response.data);
+    const getSelling = async () => {
+        const response = await axios.get('http://localhost:5000/penjualan');
+        setSelling(response.data);
     }
-    const deleteProduct = async (id_produk) => {
-        await axios.delete(`http://localhost:5000/produk/${id_produk}`);
-        getProducts();
+    const deleteSelling = async (id_penjualan) => {
+        await axios.delete(`http://localhost:5000/penjualan/${id_penjualan}`);
+        getSelling();
     }
 
     const refreshToken = async () => {
@@ -86,7 +86,7 @@ const Dashboard = () => {
                         <div class="col-lg-12">
                             <div class="panel panel-primary">
                                 <div class="panel-heading">
-                                    Data Produk
+                                    Data Penjualan
                                 </div>
 
                                 <div class="panel-body">
@@ -95,23 +95,43 @@ const Dashboard = () => {
                                     <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
                                         <thead>
                                             <tr>
-                                                <th>No</th>
-                                                <th>Nama</th>
-                                                <th>Kategori</th>
-                                                <th>Stok</th>
-                                                <th>Harga</th>
+                                                <th>ID Penjualan</th>
+                                                <th>ID Produk</th>
+                                                <th>Januari</th>
+                                                <th>Februari</th>
+                                                <th>Maret</th> 
+                                                <th>April</th>
+                                                <th>Mei</th>
+                                                <th>Juni</th> 
+                                                <th>Juli</th>
+                                                <th>Agustus</th>
+                                                <th>Septemer</th> 
+                                                <th>Oktober</th>
+                                                <th>November</th>
+                                                <th>Desember</th>
+                                                <th>Total</th> 
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {products.map((produk, index) => (
-                                                <tr key={produk.id}>
+                                             {selling.map((penjualan, index) => (
+                                                <tr key={penjualan.id_penjualan}>
                                                     <td>{index + 1}</td>
-                                                    <td>{produk.nama}</td>
-                                                    <td>{produk.id_kategori}</td>
-                                                    <td>{produk.stok}</td>
-                                                    <td>{produk.harga}</td>
+                                                    <td>{penjualan.id_produk}</td>
+                                                    <td>{penjualan.JAN}</td>
+                                                    <td>{penjualan.FEB}</td>
+                                                    <td>{penjualan.MAR}</td>
+                                                    <td>{penjualan.APR}</td>
+                                                    <td>{penjualan.MEI}</td>
+                                                    <td>{penjualan.JUN}</td>
+                                                    <td>{penjualan.JUL}</td>
+                                                    <td>{penjualan.AGUST}</td>
+                                                    <td>{penjualan.SEPT}</td>
+                                                    <td>{penjualan.OKT}</td>
+                                                    <td>{penjualan.NOV}</td>
+                                                    <td>{penjualan.DES}</td>
+                                                    <td>{penjualan.total}</td>
                                                 </tr>
-                                            ))}
+                                            ))} 
                                         </tbody>
                                     </table>
                                 </div>
@@ -126,4 +146,4 @@ const Dashboard = () => {
     )
 }
 
-export default Dashboard
+export default ReportSelling
