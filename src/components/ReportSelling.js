@@ -4,6 +4,7 @@ import axios from 'axios';
 import jwt_decode from "jwt-decode";
 import { useParams, useNavigate } from 'react-router-dom';
 import { Link } from "react-router-dom";
+import ReactPaginate from "react-paginate";
 
 const ReportSelling = () => {
     const [name, setName] = useState('');
@@ -12,6 +13,7 @@ const ReportSelling = () => {
     const [users, setUsers] = useState([]);
     const navigate = useNavigate();
     const [selling, setSelling] = useState([]);
+    const [products, setProduct] = useState([]);
 
     useEffect(() => {
         refreshToken();
@@ -20,7 +22,10 @@ const ReportSelling = () => {
     }, []);
     const getSelling = async () => {
         const response = await axios.get('http://localhost:5000/penjualan');
+        const response2 = await axios.get('http://localhost:5000/produk');
         setSelling(response.data);
+        setProduct(response2.data);
+        
     }
     const deleteSelling = async (id_penjualan) => {
         await axios.delete(`http://localhost:5000/penjualan/${id_penjualan}`);
@@ -40,9 +45,7 @@ const ReportSelling = () => {
             }
         }
     }
-
     const axiosJWT = axios.create();
-
     axiosJWT.interceptors.request.use(async (config) => {
         const currentDate = new Date();
         if (expire * 1000 < currentDate.getTime()) {
@@ -66,14 +69,6 @@ const ReportSelling = () => {
         });
         setUsers(response.data);
     }
-    const Logout = async () => {
-        try {
-            await axios.delete('http://localhost:5000/logout');
-            navigate('/');
-        } catch (error) {
-            console.log(error);
-        }
-    }
 
 
     return (
@@ -92,11 +87,12 @@ const ReportSelling = () => {
                                 <div class="panel-body">
                                     {/* <p><a class="btn btn-sm btn-success" href="produk-tambah.php">
                                         <i class="fa fa-plus-square"> Tambah Produk</i></a></p> */}
-                                    <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
+                                    <table width="65%" class="table table-striped table-bordered table-hover" id="dataTables-example">
                                         <thead>
                                             <tr>
                                                 <th>ID Penjualan</th>
                                                 <th>ID Produk</th>
+                                                <th>Nama Produk</th>
                                                 <th>Januari</th>
                                                 <th>Februari</th>
                                                 <th>Maret</th> 
@@ -105,7 +101,7 @@ const ReportSelling = () => {
                                                 <th>Juni</th> 
                                                 <th>Juli</th>
                                                 <th>Agustus</th>
-                                                <th>Septemer</th> 
+                                                <th>September</th> 
                                                 <th>Oktober</th>
                                                 <th>November</th>
                                                 <th>Desember</th>
@@ -113,10 +109,15 @@ const ReportSelling = () => {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                             {selling.map((penjualan, index) => (
-                                                <tr key={penjualan.id_penjualan}>
-                                                    <td>{index + 1}</td>
+                                            {selling.map((penjualan) => {
+                                                const namaproduk = products.filter(produk => produk.id === penjualan.id_produk);
+                                                return(
+                                                    <tr key={penjualan.id_penjualan}>
+                                                    <td>{penjualan.id}</td>    
                                                     <td>{penjualan.id_produk}</td>
+                                                    {namaproduk.map((produk, i)=> (
+                                                         <td>{produk.nama}</td>
+                                                    ))}
                                                     <td>{penjualan.JAN}</td>
                                                     <td>{penjualan.FEB}</td>
                                                     <td>{penjualan.MAR}</td>
@@ -131,7 +132,8 @@ const ReportSelling = () => {
                                                     <td>{penjualan.DES}</td>
                                                     <td>{penjualan.total}</td>
                                                 </tr>
-                                            ))} 
+                                                )
+                                            })}
                                         </tbody>
                                     </table>
                                 </div>

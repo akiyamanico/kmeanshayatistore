@@ -16,7 +16,7 @@ const Login = () => {
                 email: email,
                 password: password
             });
-            navigate("/dashboard");
+            navigate("/HomePage");
         } catch (error) {
             if (error.response) {
                 setMsg(error.response.data.msg);

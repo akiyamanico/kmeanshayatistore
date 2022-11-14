@@ -125,10 +125,10 @@ export default function NavigationBar() {
                                 <a href="./ReportSelling">Laporan Penjualan</a>
                             </li>
                             <li className="text-white hover:text-indigo-200">
-                                <a href="javascript:void(0)">About US</a>
+                                <a href="./TambahData">Tambah Data</a>
                             </li>
                             <li className="text-white hover:text-indigo-200">
-                                <a href="javascript:void(0)">Contact US</a>
+                                <a href="./Kmeans">Lakukan Data Mining (K-Means)</a>
                             </li>
                             <button onClick={Logout} className="button is-light">
                                     Log Out
@@ -137,17 +137,6 @@ export default function NavigationBar() {
 
                         <div className="mt-3 space-y-2 lg:hidden md:inline-block">
                     <a
-                        href="javascript:void(0)"
-                        className="inline-block w-full px-4 py-2 text-center text-white bg-gray-600 rounded-md shadow hover:bg-gray-800"
-                    >
-                        Sign in
-                    </a>
-                    <a
-                        href="javascript:void(0)"
-                        className="inline-block w-full px-4 py-2 text-center text-gray-800 bg-white rounded-md shadow hover:bg-gray-100"
-                    >
-                        Sign up
-                    </a>
                 </div>
                     </div>
                 </div>
